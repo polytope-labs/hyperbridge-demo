@@ -27,9 +27,9 @@
   integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
 "@polytope-labs/hyperclient@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-0.3.23.tgz#2f11271be4925cdc95dee196e839cb37d2a8f2c4"
-  integrity sha512-ncvRHd/qI0fs8geGgCzlhbP3Y6zLMEODmus+pf0WDejZfTmeEr6exF8ONSBR0Pi0zu/IAFV8wZQwo05mUG37/g==
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-0.3.24.tgz#f66491ae7ad7ca8d8f598389697af1f477d69ea0"
+  integrity sha512-wd1kfGDonYLa99U7DICFAx6WE17zCbljrRjNaeEXyG7FPEHY1lgFaamZdk+UWxxk3czQw2h8AmRtPulZdkGQtQ==
 
 "@scure/base@~1.1.6":
   version "1.1.7"
