@@ -152,7 +152,7 @@ async function sendCrossChainMessage() {
         );
         const { args, functionName } = decodeFunctionData({
           abi: HANDLER.ABI,
-          data: toHex(status.calldata),
+          data: status.calldata,
         });
 
         try {
