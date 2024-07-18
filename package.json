@@ -1,21 +1,21 @@
 {
-	"name": "hyperbridge-demo",
-	"version": "1.0.0",
-	"main": "index.js",
-	"license": "MIT",
-	"node": ">= 22.4.1",
-	"scripts": {
-		"start": "npx tsc && node index.js"
-	},
-	"dependencies": {
-		"@polytope-labs/hyperclient": "^0.3.23",
-		"dotenv": "^16.4.5",
-		"log-timestamp": "^0.3.0",
-		"prettify": "^0.1.7",
-		"typescript": "^5.5.3",
-		"viem": "^2.17.3"
-	},
-	"devDependencies": {
-		"@types/node": "^20.14.10"
-	}
+  "name": "hyperbridge-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "node": ">= 22.4.1",
+  "scripts": {
+    "start": "npx tsc && node index.js"
+  },
+  "dependencies": {
+    "@polytope-labs/hyperclient": "^0.3.30",
+    "dotenv": "^16.4.5",
+    "log-timestamp": "^0.3.0",
+    "prettify": "^0.1.7",
+    "typescript": "^5.5.3",
+    "viem": "^2.17.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10"
+  }
 }
