@@ -52,7 +52,7 @@ async function sendCrossChainMessage() {
   ]);
 
   if (allowance === BigInt(0)) {
-    console.log("Setting allownce .. ");
+    console.log("Setting allowance .. ");
     // set allowance to type(uint256).max
     const hash = await feeToken.write.approve([
       PING_MODULE_ADDRESS,
@@ -185,7 +185,7 @@ async function sendCrossChainMessage() {
 
 config();
 
-const PING_MODULE_ADDRESS = "0x8E4Ca395cfAa033A71fC618792Fce99106633B90";
+const PING_MODULE_ADDRESS = "0x32EBaeF451dD321855B168b5ad96b480066DE060";
 
 const account = privateKeyToAccount(process.env.PRIVATE_KEY as any);
 
@@ -212,19 +212,19 @@ const opSepoliaClient = createPublicClient({
 });
 
 const feeToken = getContract({
-  address: "0x83311D74692ce1A8859F908880b3EdEC67f05997",
+  address: "0x157Ef95562CACF7F7bDFC606cc4Ce73B65e5E1f2",
   abi: ERC6160.ABI,
   client: { public: bscTestnetClient, wallet: bscWalletClient },
 });
 
 const opSepoliaHandler = getContract({
-  address: "0xB9Ffd43C720A695d40C14896494c1461f3fBb8A7",
+  address: "0x761426351F32261a10e2DF5e359f5A0A09e5A1D7",
   abi: HANDLER.ABI,
   client: { public: opSepoliaClient, wallet: opWalletClient },
 });
 
 const tokenFaucet = getContract({
-  address: "0x5b90b886d302c7DEbA10a2E02c521B3bE930070B",
+  address: "0x50A60531EF45a62711A812C081CC2C17ac683def",
   abi: parseAbi(["function drip(address token) public"]),
   client: { public: bscTestnetClient, wallet: bscWalletClient },
 });
@@ -237,13 +237,13 @@ const ping = getContract({
 
 const BSC = {
   consensus_state_id: "BSC0",
-  host_address: "0x9494400D1A8285F81604AC04ACFD839385B3b843",
+  host_address: "0xa3F07C94A7E6cD9367a2E0C0F4247eB2AC467C86",
   state_machine: "BSC",
 };
 
 const OP = {
   consensus_state_id: "ETH0",
-  host_address: "0x265FafEb401ac6491da7344F01E724c38bC68FED",
+  host_address: "0x8Ac39DfC1F2616e5e19B93420C6d008a8a8EE65f",
   state_machine: "OPTI",
 };
 

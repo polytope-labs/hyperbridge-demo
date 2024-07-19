@@ -8,7 +8,7 @@
     "start": "npx tsc && node index.js"
   },
   "dependencies": {
-    "@polytope-labs/hyperclient": "^0.3.33",
+    "@polytope-labs/hyperclient": "^0.3.34",
     "dotenv": "^16.4.5",
     "log-timestamp": "^0.3.0",
     "prettify": "^0.1.7",
