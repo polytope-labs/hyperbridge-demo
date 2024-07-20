@@ -26,10 +26,10 @@
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.4.0.tgz#45814aa329f30e4fe0ba49426f49dfccdd066426"
   integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
-"@polytope-labs/hyperclient@^0.3.34":
-  version "0.3.34"
-  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-0.3.34.tgz#fd11f0293e9b8f2cc55089e1089504323d393e5f"
-  integrity sha512-7v+PXrGXnDM5emiI7fZCrlIbcbKgh5y+2MCrybgLdac+A2JA3AbCcVvwYQCk78PPM6ZDkDeofQ8focaDgy88kA==
+"@polytope-labs/hyperclient@^0.3.35":
+  version "0.3.35"
+  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-0.3.35.tgz#2ee81caaaefaf91c62bcca8fe567b6cbb0196f7a"
+  integrity sha512-72dT8UCRX1/sjrg1rvyX7QKBOn8VzY28v1U95IjgW+YCllVnnGepdMAqAf15Ee1xvR22Zwy36J4SXo9/RIwLrQ==
 
 "@scure/base@~1.1.6":
   version "1.1.7"

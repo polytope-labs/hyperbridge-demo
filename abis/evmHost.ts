@@ -166,6 +166,11 @@ const ABI = [
             type: "uint256",
           },
           {
+            internalType: "uint256",
+            name: "stateCommitmentFee",
+            type: "uint256",
+          },
+          {
             internalType: "address",
             name: "feeToken",
             type: "address",
@@ -231,6 +236,11 @@ const ABI = [
           {
             internalType: "uint256",
             name: "perByteFee",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "stateCommitmentFee",
             type: "uint256",
           },
           {
@@ -476,7 +486,7 @@ const ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "bytes32",
         name: "commitment",
         type: "bytes32",
@@ -533,7 +543,7 @@ const ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "bytes32",
         name: "commitment",
         type: "bytes32",
@@ -546,6 +556,25 @@ const ABI = [
       },
     ],
     name: "RequestFunded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "caller",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+    ],
+    name: "StateCommitmentRead",
     type: "event",
   },
   {
@@ -880,11 +909,6 @@ const ABI = [
             internalType: "uint64",
             name: "timeout",
             type: "uint64",
-          },
-          {
-            internalType: "address",
-            name: "sender",
-            type: "address",
           },
           {
             internalType: "uint256",
@@ -1439,6 +1463,11 @@ const ABI = [
             type: "uint256",
           },
           {
+            internalType: "uint256",
+            name: "stateCommitmentFee",
+            type: "uint256",
+          },
+          {
             internalType: "address",
             name: "feeToken",
             type: "address",
@@ -1734,6 +1763,11 @@ const ABI = [
             type: "uint256",
           },
           {
+            internalType: "uint256",
+            name: "stateCommitmentFee",
+            type: "uint256",
+          },
+          {
             internalType: "address",
             name: "feeToken",
             type: "address",
@@ -1839,7 +1873,7 @@ const ABI = [
         type: "tuple",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1990,6 +2024,11 @@ const ABI = [
           {
             internalType: "uint256",
             name: "perByteFee",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "stateCommitmentFee",
             type: "uint256",
           },
           {

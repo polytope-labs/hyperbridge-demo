@@ -185,7 +185,7 @@ async function sendCrossChainMessage() {
 
 config();
 
-const PING_MODULE_ADDRESS = "0x32EBaeF451dD321855B168b5ad96b480066DE060";
+const PING_MODULE_ADDRESS = "0x76Af4528383200CD7456E3Db967Bec309FAc583a";
 
 const account = privateKeyToAccount(process.env.PRIVATE_KEY as any);
 
@@ -212,13 +212,13 @@ const opSepoliaClient = createPublicClient({
 });
 
 const feeToken = getContract({
-  address: "0x157Ef95562CACF7F7bDFC606cc4Ce73B65e5E1f2",
+  address: "0xC72747C906C6f02333B2f6a74cF412C9dF46bAAa",
   abi: ERC6160.ABI,
   client: { public: bscTestnetClient, wallet: bscWalletClient },
 });
 
 const opSepoliaHandler = getContract({
-  address: "0x761426351F32261a10e2DF5e359f5A0A09e5A1D7",
+  address: "0x269fCD56Fe8A0399782213001dC4aA99c50286A0",
   abi: HANDLER.ABI,
   client: { public: opSepoliaClient, wallet: opWalletClient },
 });
@@ -237,13 +237,13 @@ const ping = getContract({
 
 const BSC = {
   consensus_state_id: "BSC0",
-  host_address: "0xa3F07C94A7E6cD9367a2E0C0F4247eB2AC467C86",
+  host_address: "0x4e456CE71aD3AfB8a55adeE5119127c2d892E2D0",
   state_machine: "BSC",
 };
 
 const OP = {
   consensus_state_id: "ETH0",
-  host_address: "0x8Ac39DfC1F2616e5e19B93420C6d008a8a8EE65f",
+  host_address: "0x821c5D97213Aaf914174440a53bB4403BF42f27b",
   state_machine: "OPTI",
 };
 
