@@ -12,6 +12,7 @@ import {
   http,
   parseAbi,
   parseEventLogs,
+  toHex,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { bscTestnet, optimismSepolia } from "viem/chains";
@@ -111,7 +112,7 @@ async function testPostAndGetRequest() {
       dest: OP.state_machine,
       nonce: 0n,
       from: account.address,
-      keys: [account.address],
+      keys: [account.address, opSepoliaIsmpHost.address, opSepoliaHandler.address],
       height: BigInt(height), // latest height
       timeoutTimestamp: 0n,
     },
@@ -188,11 +189,12 @@ async function testPostAndGetRequest() {
 
           if (event.eventName === "GetResponseReceived") {
             // we requested the raw account in the world state, here we decode the response
-            const { key, value } = event.args.message[0];
-            console.log({
-              address: key,
-              account: Account.fromRlpSerializedAccount(value as any),
-            });
+            for (const { key, value } of event.args.message) {
+              console.log({
+                address: key,
+                account: Account.fromRlpSerializedAccount(value as any),
+              });
+            }
           }
         } catch (e) {
           console.error("Error self-relaying: ", e);
