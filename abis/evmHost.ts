@@ -1,7 +1,17 @@
 const ABI = [
   {
     inputs: [],
+    name: "CannotChangeFeeToken",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "DuplicateResponse",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FrozenHost",
     type: "error",
   },
   {
@@ -11,17 +21,36 @@ const ABI = [
   },
   {
     inputs: [],
-    name: "InvalidHostManagerAddress",
+    name: "InvalidConsensusClient",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "provided",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
+    name: "InvalidHandler",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidHostManager",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidHyperbridgeId",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidStateMachinesLength",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidUnstakingPeriod",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "MaxFishermanCountExceeded",
     type: "error",
   },
@@ -48,6 +77,11 @@ const ABI = [
   {
     inputs: [],
     name: "UnknownResponse",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WithdrawalFailed",
     type: "error",
   },
   {
@@ -93,6 +127,12 @@ const ABI = [
         indexed: false,
         internalType: "uint256",
         name: "timeoutTimestamp",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "fee",
         type: "uint256",
       },
     ],
@@ -142,9 +182,9 @@ const ABI = [
     inputs: [
       {
         indexed: false,
-        internalType: "bool",
-        name: "frozen",
-        type: "bool",
+        internalType: "enum FrozenStatus",
+        name: "status",
+        type: "uint8",
       },
     ],
     name: "HostFrozen",
@@ -188,6 +228,11 @@ const ABI = [
           {
             internalType: "address",
             name: "hostManager",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "uniswapV2",
             type: "address",
           },
           {
@@ -264,6 +309,11 @@ const ABI = [
             type: "address",
           },
           {
+            internalType: "address",
+            name: "uniswapV2",
+            type: "address",
+          },
+          {
             internalType: "uint256",
             name: "unStakingPeriod",
             type: "uint256",
@@ -317,6 +367,12 @@ const ABI = [
         internalType: "address",
         name: "beneficiary",
         type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "native",
+        type: "bool",
       },
     ],
     name: "HostWithdrawal",
@@ -832,7 +888,7 @@ const ABI = [
         type: "bytes32",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -883,7 +939,7 @@ const ABI = [
         type: "bytes32",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -929,168 +985,7 @@ const ABI = [
         type: "bytes32",
       },
     ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            components: [
-              {
-                internalType: "bytes",
-                name: "source",
-                type: "bytes",
-              },
-              {
-                internalType: "bytes",
-                name: "dest",
-                type: "bytes",
-              },
-              {
-                internalType: "uint64",
-                name: "nonce",
-                type: "uint64",
-              },
-              {
-                internalType: "bytes",
-                name: "from",
-                type: "bytes",
-              },
-              {
-                internalType: "bytes",
-                name: "to",
-                type: "bytes",
-              },
-              {
-                internalType: "uint64",
-                name: "timeoutTimestamp",
-                type: "uint64",
-              },
-              {
-                internalType: "bytes",
-                name: "body",
-                type: "bytes",
-              },
-            ],
-            internalType: "struct PostRequest",
-            name: "request",
-            type: "tuple",
-          },
-          {
-            internalType: "bytes",
-            name: "response",
-            type: "bytes",
-          },
-          {
-            internalType: "uint64",
-            name: "timeoutTimestamp",
-            type: "uint64",
-          },
-        ],
-        internalType: "struct PostResponse",
-        name: "response",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "fee",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "sender",
-            type: "address",
-          },
-        ],
-        internalType: "struct FeeMetadata",
-        name: "meta",
-        type: "tuple",
-      },
-      {
-        internalType: "bytes32",
-        name: "commitment",
-        type: "bytes32",
-      },
-    ],
-    name: "dispatchIncoming",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "source",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "dest",
-            type: "bytes",
-          },
-          {
-            internalType: "uint64",
-            name: "nonce",
-            type: "uint64",
-          },
-          {
-            internalType: "bytes",
-            name: "from",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "to",
-            type: "bytes",
-          },
-          {
-            internalType: "uint64",
-            name: "timeoutTimestamp",
-            type: "uint64",
-          },
-          {
-            internalType: "bytes",
-            name: "body",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct PostRequest",
-        name: "request",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "fee",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "sender",
-            type: "address",
-          },
-        ],
-        internalType: "struct FeeMetadata",
-        name: "meta",
-        type: "tuple",
-      },
-      {
-        internalType: "bytes32",
-        name: "commitment",
-        type: "bytes32",
-      },
-    ],
-    name: "dispatchIncoming",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1225,78 +1120,6 @@ const ABI = [
       {
         components: [
           {
-            internalType: "bytes",
-            name: "source",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "dest",
-            type: "bytes",
-          },
-          {
-            internalType: "uint64",
-            name: "nonce",
-            type: "uint64",
-          },
-          {
-            internalType: "bytes",
-            name: "from",
-            type: "bytes",
-          },
-          {
-            internalType: "uint64",
-            name: "timeoutTimestamp",
-            type: "uint64",
-          },
-          {
-            internalType: "bytes[]",
-            name: "keys",
-            type: "bytes[]",
-          },
-          {
-            internalType: "uint64",
-            name: "height",
-            type: "uint64",
-          },
-        ],
-        internalType: "struct GetRequest",
-        name: "request",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "fee",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "sender",
-            type: "address",
-          },
-        ],
-        internalType: "struct FeeMetadata",
-        name: "meta",
-        type: "tuple",
-      },
-      {
-        internalType: "bytes32",
-        name: "commitment",
-        type: "bytes32",
-      },
-    ],
-    name: "dispatchIncoming",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
             components: [
               {
                 internalType: "bytes",
@@ -1314,9 +1137,9 @@ const ABI = [
                 type: "uint64",
               },
               {
-                internalType: "bytes",
+                internalType: "address",
                 name: "from",
-                type: "bytes",
+                type: "address",
               },
               {
                 internalType: "uint64",
@@ -1372,6 +1195,239 @@ const ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "source",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "dest",
+            type: "bytes",
+          },
+          {
+            internalType: "uint64",
+            name: "nonce",
+            type: "uint64",
+          },
+          {
+            internalType: "address",
+            name: "from",
+            type: "address",
+          },
+          {
+            internalType: "uint64",
+            name: "timeoutTimestamp",
+            type: "uint64",
+          },
+          {
+            internalType: "bytes[]",
+            name: "keys",
+            type: "bytes[]",
+          },
+          {
+            internalType: "uint64",
+            name: "height",
+            type: "uint64",
+          },
+        ],
+        internalType: "struct GetRequest",
+        name: "request",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "sender",
+            type: "address",
+          },
+        ],
+        internalType: "struct FeeMetadata",
+        name: "meta",
+        type: "tuple",
+      },
+      {
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
+      },
+    ],
+    name: "dispatchTimeOut",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "bytes",
+                name: "source",
+                type: "bytes",
+              },
+              {
+                internalType: "bytes",
+                name: "dest",
+                type: "bytes",
+              },
+              {
+                internalType: "uint64",
+                name: "nonce",
+                type: "uint64",
+              },
+              {
+                internalType: "bytes",
+                name: "from",
+                type: "bytes",
+              },
+              {
+                internalType: "bytes",
+                name: "to",
+                type: "bytes",
+              },
+              {
+                internalType: "uint64",
+                name: "timeoutTimestamp",
+                type: "uint64",
+              },
+              {
+                internalType: "bytes",
+                name: "body",
+                type: "bytes",
+              },
+            ],
+            internalType: "struct PostRequest",
+            name: "request",
+            type: "tuple",
+          },
+          {
+            internalType: "bytes",
+            name: "response",
+            type: "bytes",
+          },
+          {
+            internalType: "uint64",
+            name: "timeoutTimestamp",
+            type: "uint64",
+          },
+        ],
+        internalType: "struct PostResponse",
+        name: "response",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "sender",
+            type: "address",
+          },
+        ],
+        internalType: "struct FeeMetadata",
+        name: "meta",
+        type: "tuple",
+      },
+      {
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
+      },
+    ],
+    name: "dispatchTimeOut",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "source",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "dest",
+            type: "bytes",
+          },
+          {
+            internalType: "uint64",
+            name: "nonce",
+            type: "uint64",
+          },
+          {
+            internalType: "bytes",
+            name: "from",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "to",
+            type: "bytes",
+          },
+          {
+            internalType: "uint64",
+            name: "timeoutTimestamp",
+            type: "uint64",
+          },
+          {
+            internalType: "bytes",
+            name: "body",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct PostRequest",
+        name: "request",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "sender",
+            type: "address",
+          },
+        ],
+        internalType: "struct FeeMetadata",
+        name: "meta",
+        type: "tuple",
+      },
+      {
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
+      },
+    ],
+    name: "dispatchTimeOut",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "feeToken",
     outputs: [
@@ -1389,9 +1445,9 @@ const ABI = [
     name: "frozen",
     outputs: [
       {
-        internalType: "bool",
+        internalType: "enum FrozenStatus",
         name: "",
-        type: "bool",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -1412,7 +1468,7 @@ const ABI = [
     ],
     name: "fundRequest",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1430,7 +1486,7 @@ const ABI = [
     ],
     name: "fundResponse",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1485,6 +1541,11 @@ const ABI = [
           {
             internalType: "address",
             name: "hostManager",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "uniswapV2",
             type: "address",
           },
           {
@@ -1560,6 +1621,19 @@ const ABI = [
   },
   {
     inputs: [],
+    name: "nonce",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "perByteFee",
     outputs: [
       {
@@ -1616,6 +1690,25 @@ const ABI = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
+      },
+    ],
+    name: "responded",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -1738,9 +1831,9 @@ const ABI = [
   {
     inputs: [
       {
-        internalType: "bool",
+        internalType: "enum FrozenStatus",
         name: "newState",
-        type: "bool",
+        type: "uint8",
       },
     ],
     name: "setFrozenState",
@@ -1749,83 +1842,16 @@ const ABI = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "stateCommitmentFee",
+    outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "defaultTimeout",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "perByteFee",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "stateCommitmentFee",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "feeToken",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "admin",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "handler",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "hostManager",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "unStakingPeriod",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "challengePeriod",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "consensusClient",
-            type: "address",
-          },
-          {
-            internalType: "uint256[]",
-            name: "stateMachines",
-            type: "uint256[]",
-          },
-          {
-            internalType: "address[]",
-            name: "fishermen",
-            type: "address[]",
-          },
-          {
-            internalType: "bytes",
-            name: "hyperbridge",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct HostParams",
-        name: "params",
-        type: "tuple",
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    name: "setHostParamsAdmin",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1873,7 +1899,7 @@ const ABI = [
         type: "tuple",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1910,6 +1936,11 @@ const ABI = [
   {
     inputs: [
       {
+        internalType: "bytes",
+        name: "parachainId",
+        type: "bytes",
+      },
+      {
         internalType: "uint256",
         name: "id",
         type: "uint256",
@@ -1923,7 +1954,7 @@ const ABI = [
         type: "string",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -2013,6 +2044,19 @@ const ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "uniswapV2Router",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         components: [
@@ -2049,6 +2093,11 @@ const ABI = [
           {
             internalType: "address",
             name: "hostManager",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "uniswapV2",
             type: "address",
           },
           {
@@ -2120,6 +2169,30 @@ const ABI = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "paraId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "height",
+        type: "uint256",
+      },
+    ],
+    name: "vetoes",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         components: [
           {
             internalType: "address",
@@ -2131,6 +2204,11 @@ const ABI = [
             name: "amount",
             type: "uint256",
           },
+          {
+            internalType: "bool",
+            name: "native",
+            type: "bool",
+          },
         ],
         internalType: "struct WithdrawParams",
         name: "params",
@@ -2141,6 +2219,10 @@ const ABI = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
   },
 ] as const;
 

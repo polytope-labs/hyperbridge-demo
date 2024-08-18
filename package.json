@@ -8,7 +8,9 @@
     "start": "npx tsc && node index.js"
   },
   "dependencies": {
-    "@polytope-labs/hyperclient": "^0.3.35",
+    "@ethereumjs/util": "^9.1.0",
+    "@polkadot/api": "^12.3.1",
+    "@polytope-labs/hyperclient": "^0.4.3",
     "dotenv": "^16.4.5",
     "log-timestamp": "^0.3.0",
     "prettify": "^0.1.7",
