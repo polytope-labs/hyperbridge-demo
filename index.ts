@@ -24,7 +24,7 @@ import PING_MODULE from "./abis/pingModule";
 import EVM_HOST from "./abis/evmHost";
 import HANDLER from "./abis/handler";
 
-const PING_MODULE_ADDRESS = "0x1aD48ADeD62e7C685dF4fb75e6d14d34C8B83081";
+const PING_MODULE_ADDRESS = "0x42C6551d05eA47c46Fc7B01BBaaD37c466481361";
 
 /*
   Using a viem client, dispatches an onchain transaction to the ping module.
@@ -111,6 +111,7 @@ async function testPostAndGetRequest() {
       source: "0x",
       dest: OP.state_machine,
       nonce: 0n,
+      context: "0x",
       from: account.address,
       keys: [account.address, opSepoliaIsmpHost.address, opSepoliaHandler.address],
       height: BigInt(height), // latest height
@@ -383,7 +384,7 @@ async function setUp() {
   });
 
   const tokenFaucet = getContract({
-    address: "0x50A60531EF45a62711A812C081CC2C17ac683def",
+    address: "0x17d8cc0859fbA942A7af243c3EBB69AbBfe0a320",
     abi: parseAbi(["function drip(address token) public"]),
     client: { public: bscTestnetClient, wallet: bscWalletClient },
   });

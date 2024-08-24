@@ -113,6 +113,11 @@ const ABI = [
                 name: "height",
                 type: "uint64",
               },
+              {
+                internalType: "bytes",
+                name: "context",
+                type: "bytes",
+              },
             ],
             internalType: "struct GetRequest[]",
             name: "timeouts",
@@ -234,6 +239,11 @@ const ABI = [
                         internalType: "uint64",
                         name: "height",
                         type: "uint64",
+                      },
+                      {
+                        internalType: "bytes",
+                        name: "context",
+                        type: "bytes",
                       },
                     ],
                     internalType: "struct GetRequest",
