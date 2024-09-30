@@ -140,10 +140,9 @@ async function testPostAndGetRequest() {
 
   const getRequest = {
     ...txRequest,
-    txHeight: txReceipt.blockNumber,
   };
 
-  const statusStream = await hyperclient.get_request_status_stream(getRequest as any);
+  const statusStream = await hyperclient.get_request_status_stream(getRequest as any, { Dispatched: txReceipt.blockNumber });
 
   for await (const item of statusStream) {
     let status: MessageStatusWithMeta;
@@ -162,7 +161,7 @@ async function testPostAndGetRequest() {
         );
         break;
       }
-      case "HyperbridgeDelivered": {
+      case "HyperbridgeVerified": {
         console.log(
           `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
         );
@@ -200,12 +199,13 @@ async function testPostAndGetRequest() {
         } catch (e) {
           console.error("Error self-relaying: ", e);
         }
+        break;
       }
       case "DestinationDelivered": {
         console.log(
           `Status ${status.kind}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.transaction_hash}`,
         );
-        return process.exit(0);
+        break;
       }
     }
   }
@@ -241,16 +241,11 @@ async function testPostAndGetRequest() {
 
   console.log({ request });
 
-  const postRequest = {
-    ...request,
-    txHeight: receipt.blockNumber,
-  };
-
-  const status = await hyperclient.query_post_request_status(postRequest);
+  const status = await hyperclient.query_post_request_status(request);
 
   console.log("Request status: ", status);
 
-  const stream = await hyperclient.post_request_status_stream(postRequest);
+  const stream = await hyperclient.post_request_status_stream(request, { Dispatched: receipt.blockNumber });
 
   for await (const item of stream) {
     let status: MessageStatusWithMeta;
@@ -269,7 +264,7 @@ async function testPostAndGetRequest() {
         );
         break;
       }
-      case "HyperbridgeDelivered": {
+      case "HyperbridgeVerified": {
         console.log(
           `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
         );
@@ -297,6 +292,9 @@ async function testPostAndGetRequest() {
         }
 
         break;
+      }
+      case "Timeout": {
+        return;
       }
       case "DestinationDelivered": {
         console.log(

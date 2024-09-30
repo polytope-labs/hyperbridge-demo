@@ -10,7 +10,7 @@
   "dependencies": {
     "@ethereumjs/util": "^9.1.0",
     "@polkadot/api": "^12.3.1",
-    "@polytope-labs/hyperclient": "^0.5.0",
+    "@polytope-labs/hyperclient": "^0.6.3",
     "dotenv": "^16.4.5",
     "log-timestamp": "^0.3.0",
     "prettify": "^0.1.7",
@@ -19,5 +19,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.10"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
