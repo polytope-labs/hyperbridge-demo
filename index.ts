@@ -24,7 +24,7 @@ import PING_MODULE from "./abis/pingModule";
 import EVM_HOST from "./abis/evmHost";
 import HANDLER from "./abis/handler";
 
-const PING_MODULE_ADDRESS = "0x42C6551d05eA47c46Fc7B01BBaaD37c466481361";
+const PING_MODULE_ADDRESS = "0xFE9f23F0F2fE83b8B9576d3FC94e9a7458DdDD35";
 
 /*
   Using a viem client, dispatches an onchain transaction to the ping module.
@@ -81,15 +81,15 @@ async function testPostAndGetRequest() {
   console.log("Setting up hyperclient");
 
   const HyperbridgeConfig = {
-    rpc_url: "ws://127.0.0.1:9001",
-    // rpc_url: "wss://hyperbridge-paseo-rpc.blockops.network",
+    // rpc_url: "ws://127.0.0.1:9001",
+    rpc_url: "wss://hyperbridge-paseo-rpc.blockops.network",
+    state_machine: "KUSAMA-4009"
   };
 
   const hyperclient = await HyperClient.init({
     source: BSC,
     dest: OP,
     hyperbridge: HyperbridgeConfig,
-    indexer: "",
   });
 
   // send GetRequest

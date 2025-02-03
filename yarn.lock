@@ -419,10 +419,10 @@
     tslib "^2.6.2"
     ws "^8.16.0"
 
-"@polytope-labs/hyperclient@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-0.6.3.tgz#e54369b6a0b91b40a76e5e26ec77182b1d33218c"
-  integrity sha512-8Mj9ydXtDzki8wk9/zI6qCylp2Y687mSx365LeGIMLeRRTsewptJaISwgd1kAS1W5LT2kxuQm86/c/N1+B/6AQ==
+"@polytope-labs/hyperclient@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@polytope-labs/hyperclient/-/hyperclient-1.0.2.tgz#869fde9e8fa0e1136a2ac9f4ae52514004c51c80"
+  integrity sha512-YFAn/v4C6GFXWx8xtE+tf7vmal1taM2TaOQYwoMxHloZtAjH0ms6E631nZfVWruNHsGH2OjoRVnbUbNpbJN+gA==
 
 "@scure/base@^1.1.1", "@scure/base@^1.1.5", "@scure/base@~1.1.6":
   version "1.1.7"
