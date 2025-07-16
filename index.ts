@@ -24,7 +24,7 @@ import PING_MODULE from "./abis/pingModule";
 import EVM_HOST from "./abis/evmHost";
 import HANDLER from "./abis/handler";
 
-const PING_MODULE_ADDRESS = "0x42C6551d05eA47c46Fc7B01BBaaD37c466481361";
+const PING_MODULE_ADDRESS = "0xFE9f23F0F2fE83b8B9576d3FC94e9a7458DdDD35";
 
 /*
   Using a viem client, dispatches an onchain transaction to the ping module.
@@ -81,9 +81,23 @@ async function testPostAndGetRequest() {
   console.log("Setting up hyperclient");
 
   const HyperbridgeConfig = {
-    rpc_url: "ws://127.0.0.1:9001",
-    // rpc_url: "wss://hyperbridge-paseo-rpc.blockops.network",
+    // rpc_url: "ws://127.0.0.1:9001",
+    state_machine: "KUSAMA-4009",
+    rpc_url: "wss://hyperbridge-paseo-rpc.blockops.network",
   };
+
+  console.log(
+    JSON.stringify(
+      {
+        source: BSC,
+        dest: OP,
+        hyperbridge: HyperbridgeConfig,
+        indexer: "",
+      },
+      null,
+      4,
+    ),
+  );
 
   const hyperclient = await HyperClient.init({
     source: BSC,
@@ -142,7 +156,9 @@ async function testPostAndGetRequest() {
     ...txRequest,
   };
 
-  const statusStream = await hyperclient.get_request_status_stream(getRequest as any, { Dispatched: txReceipt.blockNumber });
+  const statusStream = await hyperclient.get_request_status_stream(getRequest as any, {
+    Dispatched: txReceipt.blockNumber,
+  });
 
   for await (const item of statusStream) {
     let status: MessageStatusWithMeta;
@@ -206,101 +222,6 @@ async function testPostAndGetRequest() {
           `Status ${status.kind}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.transaction_hash}`,
         );
         break;
-      }
-    }
-  }
-
-  console.log("\n\nSending Post Request\n\n");
-
-  const hash = await bscPing.write.ping([
-    {
-      dest: await opSepoliaIsmpHost.read.host(),
-      count: BigInt(1),
-      fee: BigInt(0),
-      module: PING_MODULE_ADDRESS,
-      timeout: BigInt(60 * 60),
-    },
-  ]);
-
-  const receipt = await bscTestnetClient.waitForTransactionReceipt({
-    hash,
-    confirmations: 1,
-  });
-
-  console.log(`Transaction reciept: ${bscTestnet.blockExplorers.default.url}/tx/${hash}`);
-  console.log("Block: ", receipt.blockNumber);
-
-  // parse EvmHost PostRequestEvent emitted in the transcation logs
-  const event = parseEventLogs({ abi: EVM_HOST.ABI, logs: receipt.logs })[0];
-
-  if (event.eventName !== "PostRequestEvent") {
-    throw new Error("Unexpected Event type");
-  }
-
-  const request = event.args;
-
-  console.log({ request });
-
-  const status = await hyperclient.query_post_request_status(request);
-
-  console.log("Request status: ", status);
-
-  const stream = await hyperclient.post_request_status_stream(request, { Dispatched: receipt.blockNumber });
-
-  for await (const item of stream) {
-    let status: MessageStatusWithMeta;
-    if (item instanceof Map) {
-      status = Object.fromEntries((item as any).entries()) as MessageStatusWithMeta;
-    } else {
-      status = item;
-    }
-
-    console.log({ status });
-
-    switch (status.kind) {
-      case "SourceFinalized": {
-        console.log(
-          `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
-        );
-        break;
-      }
-      case "HyperbridgeVerified": {
-        console.log(
-          `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
-        );
-        break;
-      }
-      case "HyperbridgeFinalized": {
-        console.log(
-          `Status ${status.kind}, Transaction: https://sepolia-optimism.etherscan.io/tx/${status.transaction_hash}`,
-        );
-        const { args, functionName } = decodeFunctionData({
-          abi: HANDLER.ABI,
-          data: status.calldata,
-        });
-
-        try {
-          const hash = await opSepoliaHandler.write.handlePostRequests(args as any);
-          await opSepoliaClient.waitForTransactionReceipt({
-            hash,
-            confirmations: 1,
-          });
-
-          console.log(`Transaction submitted: https://sepolia-optimism.etherscan.io/tx/${hash}`);
-        } catch (e) {
-          console.error("Error self-relaying: ", e);
-        }
-
-        break;
-      }
-      case "Timeout": {
-        return;
-      }
-      case "DestinationDelivered": {
-        console.log(
-          `Status ${status.kind}, Transaction: https://sepolia-optimism.etherscan.io/tx/${status.transaction_hash}`,
-        );
-        return;
       }
     }
   }
@@ -382,7 +303,7 @@ async function setUp() {
   });
 
   const tokenFaucet = getContract({
-    address: "0x17d8cc0859fbA942A7af243c3EBB69AbBfe0a320",
+    address: "0x1794aB22388303ce9Cb798bE966eeEBeFe59C3a3",
     abi: parseAbi(["function drip(address token) public"]),
     client: { public: bscTestnetClient, wallet: bscWalletClient },
   });
