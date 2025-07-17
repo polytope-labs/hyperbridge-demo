@@ -18,6 +18,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import { bscTestnet, optimismSepolia } from "viem/chains";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Account } from "@ethereumjs/util";
+import { createQueryClient, IndexerClient, RequestStatusWithMetadata, getRequestCommitment, RequestStatus } from "hyperbridge-sdk"
 
 import ERC6160 from "./abis/erc6160";
 import PING_MODULE from "./abis/pingModule";
@@ -80,36 +81,36 @@ async function testPostAndGetRequest() {
 
   console.log("Setting up hyperclient");
 
-  const HyperbridgeConfig = {
-    // rpc_url: "ws://127.0.0.1:9001",
-    state_machine: "KUSAMA-4009",
-    rpc_url: "wss://hyperbridge-paseo-rpc.blockops.network",
-  };
+  const queryClient = createQueryClient({
+    url: "https://gargantua.indexer.polytope.technology", // URL of the Hyperbridge indexer API
+  })
 
-  console.log(
-    JSON.stringify(
-      {
-        source: BSC,
-        dest: OP,
-        hyperbridge: HyperbridgeConfig,
-        indexer: "",
-      },
-      null,
-      4,
-    ),
-  );
-
-  const hyperclient = await HyperClient.init({
-    source: BSC,
-    dest: OP,
-    hyperbridge: HyperbridgeConfig,
-    indexer: "",
-  });
+  const indexer = new IndexerClient({
+    source: {
+      consensusStateId: "BSC0",
+      rpcUrl: BSC.rpc_url,
+      stateMachineId: "EVM-97",
+      host: "0x8Aa0Dea6D675d785A882967Bf38183f6117C09b7", // Host contract address
+    },
+    dest: {
+      consensusStateId: "ETH0",
+      rpcUrl: OP.rpc_url,
+      stateMachineId: "EVM-11155420",
+      host: "0x6d51b678836d8060d980605d2999eF211809f3C2", // Host contract address
+    },
+    hyperbridge: {
+      consensusStateId: "PAS0",
+      stateMachineId: "KUSAMA-4009",
+      wsUrl: "wss://hyperbridge-paseo-rpc.blockops.network",
+    },
+    queryClient, // URL of the Hyperbridge indexer API
+    pollInterval: 1_000, // Every second
+  })
 
   // send GetRequest
   console.log("\n\nSending Get Request\n\n");
 
-  const wsProvider = new WsProvider(HyperbridgeConfig.rpc_url);
+  const wsProvider = new WsProvider("wss://hyperbridge-paseo-rpc.blockops.network");
   const api = await ApiPromise.create({ provider: wsProvider });
   const height = (
     await api.query.ismp.latestStateMachineHeight({
@@ -123,11 +124,11 @@ async function testPostAndGetRequest() {
   const txHash = await bscPing.write.dispatch([
     {
       source: "0x",
-      dest: OP.state_machine,
+      dest: toHex("EVM-11155420"),
       nonce: 0n,
       context: "0x",
       from: account.address,
-      keys: [account.address, opSepoliaIsmpHost.address, opSepoliaHandler.address],
+      keys: ["0xA6aB534d799e30Fb71E4F9b0CF768bB49ff9fa64"],
       height: BigInt(height), // latest height
       timeoutTimestamp: 0n,
     },
@@ -148,48 +149,40 @@ async function testPostAndGetRequest() {
     throw new Error("Unexpected Event type");
   }
 
-  const txRequest = txEvent.args;
+  console.log(txEvent.args);
 
-  console.log({ txRequest });
-
-  const getRequest = {
-    ...txRequest,
-  };
-
-  const statusStream = await hyperclient.get_request_status_stream(getRequest as any, {
-    Dispatched: txReceipt.blockNumber,
-  });
+  const statusStream = await indexer.getRequestStatusStream(getRequestCommitment(txEvent.args as any));
 
   for await (const item of statusStream) {
-    let status: MessageStatusWithMeta;
+    let status: RequestStatusWithMetadata;
     if (item instanceof Map) {
-      status = Object.fromEntries((item as any).entries()) as MessageStatusWithMeta;
+      status = Object.fromEntries((item as any).entries()) as RequestStatusWithMetadata;
     } else {
       status = item;
     }
 
     console.log({ status });
 
-    switch (status.kind) {
-      case "SourceFinalized": {
+    switch (status.status) {
+      case RequestStatus.SOURCE_FINALIZED: {
         console.log(
-          `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
+          `Status ${status.status}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.metadata.transactionHash}`,
         );
         break;
       }
-      case "HyperbridgeVerified": {
+      case RequestStatus.HYPERBRIDGE_DELIVERED: {
         console.log(
-          `Status ${status.kind}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.transaction_hash}`,
+          `Status ${status.status}, Transaction: https://gargantua.statescan.io/#/extrinsics/${status.metadata.transactionHash}`,
         );
         break;
       }
-      case "HyperbridgeFinalized": {
+      case RequestStatus.HYPERBRIDGE_FINALIZED: {
         console.log(
-          `Status ${status.kind}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.transaction_hash}`,
+          `Status ${status.status}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.metadata.transactionHash}`,
         );
         const { args, functionName } = decodeFunctionData({
           abi: HANDLER.ABI,
-          data: status.calldata,
+          data: status.metadata.calldata,
         });
 
         try {
@@ -217,9 +210,9 @@ async function testPostAndGetRequest() {
         }
         break;
       }
-      case "DestinationDelivered": {
+      case RequestStatus.DESTINATION: {
         console.log(
-          `Status ${status.kind}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.transaction_hash}`,
+          `Status ${status.status}, Transaction: ${bscTestnet.blockExplorers.default.url}/tx/${status.metadata.transactionHash}`,
         );
         break;
       }
