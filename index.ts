@@ -1,6 +1,4 @@
-require("log-timestamp");
-
-import { HyperClient, MessageStatusWithMeta } from "@polytope-labs/hyperclient";
+// import { HyperClient, MessageStatusWithMeta } from "@polytope-labs/hyperclient";
 import { config } from "dotenv";
 import {
   createPublicClient,
@@ -18,7 +16,8 @@ import { privateKeyToAccount } from "viem/accounts";
 import { bscTestnet, optimismSepolia } from "viem/chains";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Account } from "@ethereumjs/util";
-import { createQueryClient, IndexerClient, RequestStatusWithMetadata, getRequestCommitment, RequestStatus } from "hyperbridge-sdk"
+import { createQueryClient, IndexerClient, type RequestStatusWithMetadata, getRequestCommitment, RequestStatus } from "hyperbridge-sdk"
+import "log-timestamp";
 
 import ERC6160 from "./abis/erc6160";
 import PING_MODULE from "./abis/pingModule";
